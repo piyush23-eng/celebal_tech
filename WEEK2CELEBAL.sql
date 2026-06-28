@@ -1,4 +1,4 @@
-USE shopease;
+
 USE shopease;
 
 -- Q1
