@@ -1,5 +1,10 @@
 USE shopease;
+USE shopease;
 
+-- Q1
+SELECT * FROM customers;
+-- Q2
+SELECT first_name, last_name, city FROM customers;
 -- Q3
 SELECT DISTINCT category FROM products;
 -- Q4: Primary Keys in each table
