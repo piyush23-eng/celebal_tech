@@ -8,7 +8,7 @@ Each week's work is organized into its own folder with the relevant notebook/scr
 
 ## 📅 Weekly Assignments
 
-| Week | Topic | Folder | Status |
+| Week | Topic | Status |
 |------|-------|--------|--------|
 | Week 1 | Basic Data Exploration & Cleaning using Pandas |  ✅ Completed |
 | Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals |  ✅ Completed |
