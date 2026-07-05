@@ -10,9 +10,9 @@ Each week's work is organized into its own folder with the relevant notebook/scr
 
 | Week | Topic | Folder | Status |
 |------|-------|--------|--------|
-| Week 1 | Basic Data Exploration & Cleaning using Pandas | [`Week_1/`](./Week_1) | ✅ Completed |
-| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals | [`Week_2/`](./Week_2) | ✅ Completed |
-| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions | [`Week_3/`](./Week_3) | ✅ Completed |
+| Week 1 | Basic Data Exploration & Cleaning using Pandas |  ✅ Completed |
+| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals |  ✅ Completed |
+| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions | ✅ Completed |
 | Week 4 | *Coming soon* | — | 🔜 |
 
 ---
