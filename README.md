@@ -16,7 +16,7 @@ Each week's work is organized into its own folder with the relevant notebook/scr
 | Week 4 | Azure Data Factory — End-to-End Pipeline (Superstore)              | ✅ Completed |
 | Week 5 | Spark Fundamentals — Data Cleaning & Aggregation                   | ✅ Completed |
 | Week 6 | Spark Architecture — Lazy Evaluation, DAGs & File Format Tradeoffs | ✅ Completed |
-| Week 7 | Pandas Revisited (EDA) + Delta Lake MERGE Implementation           | ✅ Completed |
+| Week 7 | Delta Lake MERGE Implementation — Incremental Data Processing      | ✅ Completed |
 
 ---
 
@@ -139,34 +139,9 @@ Conceptual + applied deep-dive into how Spark actually executes a job under the 
 
 ---
 
-## 📌 Week 7 — Pandas Revisited (EDA) + Delta Lake MERGE Implementation (Latest)
+## 📌 Week 7 — Delta Lake MERGE Implementation (Latest)
 
-Two parts this week, covering two different data engineering skills:
-
-### Part 1 — Pandas Revisited: Deeper Data Cleaning & EDA
-
-A second pass at Python + Pandas fundamentals — same core skill set as Week 1, but pushed further:
-deliberate data-quality simulation, column-appropriate cleaning strategies, and a validated derived
-column, applied to the full Superstore dataset (9,994 rows).
-
-**Steps Covered:**
-
-1. Load the CSV and profile it — `.head()`/`.tail()`, `.shape`, `.columns`, `.dtypes`, `.describe()`
-2. Audit data quality on the raw file (0 nulls, 0 duplicates as delivered)
-3. Simulate realistic messiness on a seeded copy — missing values, duplicate rows, inconsistent category casing — to properly exercise the cleaning workflow
-4. Handle missing values with column-appropriate strategies (group-median impute, row drop, mode fill)
-5. Standardize inconsistent category labels and remove duplicate rows
-6. Filter rows and select columns
-7. Derive `Price` (unit price) and `total_amount = Price * Quantity`, validated against `Sales`
-8. Quick EDA — sales by category, profit by region, top 10 products by revenue
-9. Export the cleaned dataset to a new CSV file
-
-**Output:** Jupyter Notebook (`.ipynb`) + cleaned CSV + brief summary — `Week7/data`, `Week7/notebooks`, `Week7/screenshots`
-
-### Part 2 — Delta Lake MERGE Implementation
-
-Incremental data processing using Delta Lake, applied to the same Superstore dataset, reshaped into a
-realistic upsert scenario.
+Incremental data processing using Delta Lake, applied to the Superstore dataset, reshaped into a realistic upsert scenario.
 
 **Objective:** Perform incremental data processing using Delta Lake.
 
@@ -190,7 +165,7 @@ orders** pulled from the holdout pool.
 - **0 duplicate `Row_ID`s** after merge
 - Profit on corrected orders moved from **$15,113.30 → $26,724.45** (net **+$11,611.15**), confirming the update half of the merge took effect, not just the insert half
 
-**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + screenshots + short explanation — `Week7/delta-lake-assignment`
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + screenshots + short explanation
 
 ---
 
