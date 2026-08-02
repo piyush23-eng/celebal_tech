@@ -1,74 +1,206 @@
-# TransactShield
+# 📊 Celebal Technologies — Data Engineering Internship (CEI)
 
-Real-time transaction fraud detection platform — synthetic data pipeline, a two-layer ML risk model, a scoring API with live WebSocket streaming, and a live risk-ops dashboard.
+This repository contains my weekly assignment submissions for the **Celebal Excellence Intern (CEI) Program — Data Engineering Track**.
 
-## Why this project
+Each week's work is organized into its own folder with the relevant notebook/script, dataset reference, and a brief summary of what was covered.
 
-Fintech and payments companies (Razorpay, PhonePe, JusPay, and similar) run exactly this kind of system in production: transactions flow in, get scored for risk in milliseconds, and get surfaced to an ops/fraud team with an explanation, not just a number. This project reproduces that pipeline end to end at a portfolio scale.
+---
 
-## Architecture
+## 📅 Weekly Assignments
 
-```
-generate_transactions.py          train_model.py                 main.py (FastAPI)                index.html
-   (synthetic UPI/card    ---->  IsolationForest (unsupervised) --->  /score  (REST)      <---->  live ledger
-    transactions with            + XGBoost (supervised) blended        /ws/live (WebSocket)          risk trend chart
-    5 injected fraud              into a 0-100 risk score               rule-based explanation        alerts panel
-    patterns, labeled)                                                   layer per transaction
-```
+| Week   | Topic                                                              | Status      |
+| ------ | ------------------------------------------------------------------- | ----------- |
+| Week 1 | Basic Data Exploration & Cleaning using Pandas                     | ✅ Completed |
+| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals         | ✅ Completed |
+| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions    | ✅ Completed |
+| Week 4 | Azure Data Factory — End-to-End Pipeline (Superstore)              | ✅ Completed |
+| Week 5 | Spark Fundamentals — Data Cleaning & Aggregation                   | ✅ Completed |
+| Week 6 | Spark Architecture — Lazy Evaluation, DAGs & File Format Tradeoffs | ✅ Completed |
+| Week 7 | Pandas Revisited (EDA) + Delta Lake MERGE Implementation           | ✅ Completed |
 
-- **Data layer**: `data/generate_transactions.py` — 500 synthetic users, ~20k transactions, 5 realistic fraud patterns injected (impossible travel, velocity abuse, odd-hour spikes, new-device + high value, merchant testing/card-testing).
-- **ML layer**: `ml/train_model.py` — feature engineering (distance from home city via haversine, spend-ratio vs personal baseline, device recognition, transaction velocity, odd-hour flag), then an IsolationForest (catches novel fraud patterns without labels) blended with an XGBoost classifier (precise on known patterns). Achieves ROC-AUC ~0.97 / Average Precision ~0.93 on held-out data.
-- **Serving layer**: `backend/main.py` — FastAPI app. `POST /score` scores a single transaction; `WS /ws/live` streams a simulated live feed, each transaction pre-scored with a plain-English explanation of why it was flagged.
-- **UI layer**: `frontend/index.html` — a single self-contained dashboard (no build step). Connects to the live backend over WebSocket; if no backend is running, it automatically falls back to an in-browser simulation so the demo always works standalone.
+---
 
-## Running it
+## 🛠️ Tech Stack
 
-```bash
-# 1. Generate data + train the model
-cd data && python3 generate_transactions.py
-cd ../ml && python3 train_model.py
+- **Python** (pandas, PySpark)
+- **SQL** (SQLite / MySQL)
+- **Apache Spark** (PySpark, local mode)
+- **Delta Lake** (delta-rs / `deltalake` Python API)
+- **Azure** (Storage Account, Data Factory)
+- **Google Colab**
+- **Git & GitHub** for version control
 
-# 2. Start the API
-cd ../backend
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+Each week's folder has its own `README.md` with objective, approach, and key takeaways specific to that assignment — this top-level README just links everything together.
 
-# 3. Open the dashboard
-# just open frontend/index.html directly in a browser — it will
-# connect to ws://localhost:8000/ws/live automatically
-```
+---
 
-No backend running? Open `frontend/index.html` on its own — it detects the missing connection in ~2.5s and switches to a self-contained demo simulation, so you can always show this project even without spinning up Python.
+## 📌 Week 1 — Basic Data Exploration & Cleaning using Pandas
 
-## Scaling this further (talk about this in interviews)
+Introductory Python + Pandas assignment covering the fundamentals of loading, exploring, and cleaning a raw dataset before analysis.
 
-- Swap the in-memory `random_live_transaction()` simulator for a real Kafka topic; FastAPI's WebSocket handler becomes a Kafka consumer.
-- Move `user_state` (currently in-process dict) to Redis so the scoring service can run as multiple stateless replicas behind a load balancer.
-- Batch-retrain the XGBoost model on a schedule (Airflow/ADF) as fraud patterns drift — you already have this exact experience from your Celebal ADF pipeline work.
-- Containerize `backend/` with Docker, deploy on Azure Container Apps or AKS for a horizontal-scale story.
-- Swap `rule_based_explain()` in `backend/main.py` for a real Claude API call (stubbed function `llm_explain()` is already there) to get generative, more nuanced fraud explanations for analysts.
+**Objective:** Learn Python basics and perform basic data exploration and cleaning using Pandas.
 
-## Resume bullet (starting point — edit to your voice)
+**Steps Covered:**
 
-> Built TransactShield, a real-time transaction fraud detection platform: engineered a synthetic transaction pipeline with 5 realistic fraud patterns, trained a blended IsolationForest + XGBoost risk model (ROC-AUC 0.97), and served real-time risk scores via a FastAPI WebSocket API to a live monitoring dashboard — architected with a clear path to Kafka/Redis/AKS for horizontal scale.
+1. Load a CSV dataset into a Pandas DataFrame
+2. Explore data — `.head()`/`.tail()`, `.shape`, `.columns`, `.dtypes`
+3. Handle missing values — identify, fill/drop as appropriate
+4. Perform basic operations — filter rows, select columns
+5. Remove duplicate records
+6. Create a derived column — `total_amount = price * quantity`
+7. Export the cleaned dataset as a new CSV file
 
-## Project structure
+**Output:** Jupyter Notebook (`.ipynb`) + cleaned CSV + brief summary
 
-```
-transactshield/
-├── data/
-│   └── generate_transactions.py
-├── ml/
-│   ├── train_model.py
-│   ├── scaler.joblib
-│   ├── isolation_forest.joblib
-│   ├── xgb_model.joblib
-│   ├── feature_cols.json
-│   └── metrics.json
-├── backend/
-│   ├── main.py
-│   └── requirements.txt
-├── frontend/
-│   └── index.html
-└── README.md
-```
+---
+
+## 📌 Week 2 — ShopEase E-commerce Database Analysis
+
+SQL fundamentals assignment building and querying an e-commerce database (`ShopEase`).
+
+---
+
+## 📌 Week 3 — Superstore Sales Analysis
+
+SQL-based analysis of the Superstore dataset applying subqueries, CTEs, and window functions to derive customer sales insights.
+
+**Key Insights:**
+
+- Top customer (Sean Miller) generated **$25,043.05** in total sales
+- **12 customers** placed only one order and never returned
+- Average customer spend: **$2,896.85**, with only **294/793 (~37%)** above average
+
+---
+
+## 📌 Week 4 — Azure Data Factory: End-to-End Pipeline
+
+Built an end-to-end data pipeline on Azure using Azure Storage Account and Azure Data Factory, applied to the Superstore dataset.
+
+**Objective:** Learn cloud-based data engineering fundamentals — provisioning storage, building ADF pipelines, and orchestrating data movement.
+
+**Steps Covered:**
+
+1. Set up an Azure Storage Account and container for the Superstore dataset
+2. Built pipeline `pl_superstore_pipeline` in Azure Data Factory
+3. Used **Get Metadata** activity to validate file existence/structure before processing
+4. Used **Copy Data** activity to move data between storage locations
+5. Debugged subscription-policy restrictions on new student accounts, resolved via a personal Azure Free Trial account
+
+**Output:** ADF pipeline (JSON export) + screenshots of pipeline run + brief summary
+
+---
+
+## 📌 Week 5 — Spark Fundamentals: Data Cleaning & Aggregation
+
+PySpark-based assignment covering Spark fundamentals and hands-on DataFrame cleaning, transformation, and aggregation on a real Kaggle e-commerce dataset.
+
+**Objective:** Understand Spark's in-memory architecture over traditional MapReduce, and apply PySpark DataFrames for cleaning, filtering, and aggregating data.
+
+**Dataset:** [E-Commerce Transactions Dataset](https://www.kaggle.com/datasets/smayanj/e-commerce-transactions-dataset) (Kaggle, 50K rows)
+
+**Steps Covered:**
+
+1. MapReduce limitations vs Spark's in-memory computing (conceptual)
+2. DataFrame immutability and its effect on cleaning pipelines (conceptual)
+3. Deduplication using `dropDuplicates()`
+4. Null detection across all columns + handling via `.na.drop()` / `.na.fill()`
+5. Conditional filtering (age range + category/subscription-tier equivalents)
+6. GroupBy aggregations using `.agg()` — min, max, mean, sum
+7. Shuffle process and wide vs narrow transformations (conceptual)
+8. Multi-format timestamp casting via `try_to_timestamp` + `coalesce`
+9. Risks of `inferSchema=True` on inconsistent date formats (conceptual)
+10. Final chained pipeline: dedup → fill nulls → aggregate revenue by category
+
+**Key Insights:**
+
+- Removed **13,846 duplicate rows** out of 50,000
+- **Books** was the top-revenue category (~₹23.2L)
+- Achieved **0 failed timestamp casts** using explicit multi-format parsing instead of relying on `inferSchema`
+
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + brief summary
+
+---
+
+## 📌 Week 6 — Spark Architecture: Lazy Evaluation, DAGs & File Format Tradeoffs
+
+Conceptual + applied deep-dive into how Spark actually executes a job under the hood, building on Week 5's hands-on PySpark work.
+
+**Objective:** Understand Spark's execution model — transformations vs actions, lazy evaluation, the DAG/lineage graph — and reason about storage format tradeoffs for analytical workloads.
+
+**Topics Covered:**
+
+1. Transformations vs actions, and why Spark defers execution until an action is called
+2. Lazy evaluation — how it enables query optimization before any computation runs
+3. DAG (Directed Acyclic Graph) construction and lineage tracking for fault tolerance
+4. Predicate pushdown — filtering at the storage layer instead of after loading
+5. CSV vs Parquet — columnar storage, compression, schema enforcement, and read/write performance tradeoffs
+
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + brief summary
+
+---
+
+## 📌 Week 7 — Pandas Revisited (EDA) + Delta Lake MERGE Implementation (Latest)
+
+Two parts this week, covering two different data engineering skills:
+
+### Part 1 — Pandas Revisited: Deeper Data Cleaning & EDA
+
+A second pass at Python + Pandas fundamentals — same core skill set as Week 1, but pushed further:
+deliberate data-quality simulation, column-appropriate cleaning strategies, and a validated derived
+column, applied to the full Superstore dataset (9,994 rows).
+
+**Steps Covered:**
+
+1. Load the CSV and profile it — `.head()`/`.tail()`, `.shape`, `.columns`, `.dtypes`, `.describe()`
+2. Audit data quality on the raw file (0 nulls, 0 duplicates as delivered)
+3. Simulate realistic messiness on a seeded copy — missing values, duplicate rows, inconsistent category casing — to properly exercise the cleaning workflow
+4. Handle missing values with column-appropriate strategies (group-median impute, row drop, mode fill)
+5. Standardize inconsistent category labels and remove duplicate rows
+6. Filter rows and select columns
+7. Derive `Price` (unit price) and `total_amount = Price * Quantity`, validated against `Sales`
+8. Quick EDA — sales by category, profit by region, top 10 products by revenue
+9. Export the cleaned dataset to a new CSV file
+
+**Output:** Jupyter Notebook (`.ipynb`) + cleaned CSV + brief summary — `Week7/data`, `Week7/notebooks`, `Week7/screenshots`
+
+### Part 2 — Delta Lake MERGE Implementation
+
+Incremental data processing using Delta Lake, applied to the same Superstore dataset, reshaped into a
+realistic upsert scenario.
+
+**Objective:** Perform incremental data processing using Delta Lake.
+
+**Approach:** the static Superstore file is split 85/15 — 8,495 rows become the "already loaded" Delta
+table, 1,499 held back to simulate orders not yet in the system. The incremental batch then combines
+**425 order corrections** (existing orders with a retroactive discount/profit adjustment) and **300 new
+orders** pulled from the holdout pool.
+
+**Steps Covered:**
+
+1. Load the dataset into a Delta table (`deltalake` / delta-rs — the native Python Delta Lake engine)
+2. Basic cleaning — audited for nulls/duplicates (genuinely 0 of either in this file)
+3. Build the incremental dataset (corrections + new orders)
+4. Apply a `MERGE` — `when_matched_update_all()` + `when_not_matched_insert_all()`
+5. Validate results — row counts, duplicate check, before/after profit comparison
+6. Display the final dataset and Delta's transaction history
+
+**Key Insights:**
+
+- Final table: **8,795 rows** (8,495 + 300 inserts, exactly as expected)
+- **0 duplicate `Row_ID`s** after merge
+- Profit on corrected orders moved from **$15,113.30 → $26,724.45** (net **+$11,611.15**), confirming the update half of the merge took effect, not just the insert half
+
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + screenshots + short explanation — `Week7/delta-lake-assignment`
+
+---
+
+## 🙋 About
+
+Data Engineering Intern @ Celebal Technologies (CEI Program)
+Final-year B.Tech CSE student, DIT University Dehradun
+
+---
+
+## 🔄 How This Repo Is Updated
+
+A new folder is added each week with that week's assignment, following the same structure: notebook + dataset reference + brief README summarizing objective, techniques used, and insights.
