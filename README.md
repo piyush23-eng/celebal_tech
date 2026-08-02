@@ -9,13 +9,14 @@ Each week's work is organized into its own folder with the relevant notebook/scr
 ## 📅 Weekly Assignments
 
 | Week   | Topic                                                              | Status      |
-| ------ | -------------------------------------------------------------------- | ----------- |
-| Week 1 | Basic Data Exploration & Cleaning using Pandas                       | ✅ Completed |
-| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals           | ✅ Completed |
-| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions      | ✅ Completed |
-| Week 4 | Azure Data Factory — End-to-End Pipeline (Superstore)                | ✅ Completed |
-| Week 5 | Spark Fundamentals — Data Cleaning & Aggregation                     | ✅ Completed |
-| Week 6 | Spark Architecture & PySpark Data Processing — CSV vs Parquet        | ✅ Completed |
+| ------ | ------------------------------------------------------------------- | ----------- |
+| Week 1 | Basic Data Exploration & Cleaning using Pandas                     | ✅ Completed |
+| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals         | ✅ Completed |
+| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions    | ✅ Completed |
+| Week 4 | Azure Data Factory — End-to-End Pipeline (Superstore)              | ✅ Completed |
+| Week 5 | Spark Fundamentals — Data Cleaning & Aggregation                   | ✅ Completed |
+| Week 6 | Spark Architecture — Lazy Evaluation, DAGs & File Format Tradeoffs | ✅ Completed |
+| Week 7 | Pandas Revisited — Deeper Data Cleaning & EDA (Superstore)         | ✅ Completed |
 
 ---
 
@@ -119,39 +120,49 @@ PySpark-based assignment covering Spark fundamentals and hands-on DataFrame clea
 
 ---
 
-## 📌 Week 6 — Spark Architecture & PySpark Data Processing (Latest)
+## 📌 Week 6 — Spark Architecture: Lazy Evaluation, DAGs & File Format Tradeoffs
 
-PySpark assignment covering core Spark architecture concepts alongside a hands-on read → transform → filter → write pipeline, with a focus on comparing CSV and Parquet storage formats.
+Conceptual + applied deep-dive into how Spark actually executes a job under the hood, building on Week 5's hands-on PySpark work.
 
-**Objective:** Understand Spark architecture (Driver, Cluster Manager, Executors) and execution modes; learn Lazy Evaluation and the Lineage Graph (DAG); read, transform, and filter data efficiently; and compare CSV vs Parquet performance using real Spark execution plans.
+**Objective:** Understand Spark's execution model — transformations vs actions, lazy evaluation, the DAG/lineage graph — and reason about storage format tradeoffs for analytical workloads.
 
-**Dataset:** [E-Commerce Transactions Dataset](https://www.kaggle.com/datasets/smayanj/e-commerce-transactions-dataset) (Kaggle, 50K rows)
+**Topics Covered:**
+
+1. Transformations vs actions, and why Spark defers execution until an action is called
+2. Lazy evaluation — how it enables query optimization before any computation runs
+3. DAG (Directed Acyclic Graph) construction and lineage tracking for fault tolerance
+4. Predicate pushdown — filtering at the storage layer instead of after loading
+5. CSV vs Parquet — columnar storage, compression, schema enforcement, and read/write performance tradeoffs
+
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + brief summary
+
+---
+
+## 📌 Week 7 — Pandas Revisited: Deeper Data Cleaning & EDA (Latest)
+
+A second pass at Python + Pandas fundamentals — same core skill set as Week 1, but pushed further: deliberate data-quality simulation, column-appropriate cleaning strategies, and a validated derived column, applied to the full Superstore dataset (9,994 rows).
+
+**Objective:** Perform data exploration and cleaning using Pandas, and validate every cleaning decision rather than assuming it's correct.
 
 **Steps Covered:**
 
-1. Spark architecture — roles of Driver, Cluster Manager, and Executor
-2. Lazy Evaluation and how it optimizes chained transformations via the DAG
-3. Reading CSV with `header` + `inferSchema` options
-4. CSV (row-based) vs Parquet (columnar) storage and performance tradeoffs
-5. Column selection + filtering (`select()`, `filter()`)
-6. Renaming columns and explicit type casting (`withColumnRenamed`, `.cast()`)
-7. Lineage Graph (DAG) and fault tolerance via partition recomputation
-8. Compound filtering with AND conditions
-9. Predicate Pushdown in Parquet — proven directly via `.explain(True)` physical plan output, not just described in theory
-10. Derived columns using `withColumn()` (tax calculation)
-11. Transformations vs Actions — lazy plan-building vs triggered execution
-12. End-to-end pipeline: Parquet read → null filter → CSV write
-13. Client Mode vs Cluster Mode deployment
-14. Compound filtering with OR conditions
-15. Why `.show(n)` is safe at scale while `.collect()` risks crashing the Driver
+1. Load the CSV and profile it — `.head()`/`.tail()`, `.shape`, `.columns`, `.dtypes`, `.describe()`
+2. Audit data quality on the raw file (0 nulls, 0 duplicates as delivered)
+3. Simulate realistic messiness on a seeded copy — missing values, duplicate rows, inconsistent category casing — to properly exercise the cleaning workflow
+4. Handle missing values with column-appropriate strategies (group-median impute, row drop, mode fill) instead of one blanket rule
+5. Standardize inconsistent category labels and remove duplicate rows
+6. Filter rows (high-value loss-making orders, region + segment slices) and select columns
+7. Derive `Price` (unit price) and `total_amount = Price * Quantity`, validated against `Sales`
+8. Quick EDA — sales by category, profit by region, top 10 products by revenue
+9. Export the cleaned dataset to a new CSV file
 
 **Key Insights:**
 
-- Verified Predicate Pushdown directly from Spark's physical execution plan — `PushedFilters` confirmed Spark skips irrelevant Parquet row-groups before loading data into memory
-- Parquet consistently outperformed CSV on filter speed across repeated averaged runs (e.g. ~0.27s vs ~0.36s for an identical filter)
-- Two results that look like errors at first glance are actually correct given the data: an AND-filter on `Purchase_Amount > 1000` returns 0 rows because this dataset caps at 999.98, and a null-filter on `User_Name` is a no-op because the dataset has zero nulls in that column — both are genuine data-quality observations, not bugs
+- Technology and Office Supplies lead total sales; Furniture lags behind
+- **Central** region shows the weakest profit performance; **West** is the strongest
+- A small set of products account for a disproportionate share of top-line sales
 
-**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + Spark execution plan proof + brief summary
+**Output:** Jupyter Notebook (`.ipynb`) with executed outputs + cleaned CSV + brief summary
 
 ---
 
