@@ -1,29 +1,30 @@
-Week 6 — Spark Architecture & PySpark Data Processing
-PySpark assignment covering core Spark architecture concepts alongside a hands-on read → transform → filter → write pipeline, with a focus on comparing CSV and Parquet storage formats.
-Objective
-Understand Spark architecture (Driver, Cluster Manager, Executors) and execution modes; learn Lazy Evaluation and the Lineage Graph (DAG); read, transform, and filter data efficiently; and compare CSV vs Parquet performance using real Spark execution plans.
-Dataset
-E-Commerce Transactions Dataset (Kaggle, 50K rows)
-Columns: Transaction_ID, User_Name, Age, Country, Product_Category, Purchase_Amount, Payment_Method, Transaction_Date
-Steps Covered
-Spark architecture — roles of Driver, Cluster Manager, and Executor
-Lazy Evaluation and how it optimizes chained transformations via the DAG
-Reading CSV with header + inferSchema options
-CSV (row-based) vs Parquet (columnar) storage and performance tradeoffs
-Column selection + filtering (select(), filter())
-Renaming columns and explicit type casting (withColumnRenamed, .cast())
-Lineage Graph (DAG) and fault tolerance via partition recomputation
-Compound filtering with AND conditions
-Predicate Pushdown in Parquet — proven directly via .explain(True) physical plan output, not just described in theory
-Derived columns using withColumn() (tax calculation)
-Transformations vs Actions — lazy plan-building vs triggered execution
-End-to-end pipeline: Parquet read → null filter → CSV write
-Client Mode vs Cluster Mode deployment
-Compound filtering with OR conditions
-Why .show(n) is safe at scale while .collect() risks crashing the Driver
-Key Insights
-Verified Predicate Pushdown directly from Spark's physical execution plan — PushedFilters confirmed Spark skips irrelevant Parquet row-groups before loading data into memory
-Parquet consistently outperformed CSV on filter speed across repeated averaged runs (e.g. ~0.27s vs ~0.36s for an identical filter)
-Two results that look like errors at first glance are actually correct given the data: an AND-filter on Purchase_Amount > 1000 returns 0 rows because this dataset caps at 999.98, and a null-filter on User_Name is a no-op because the dataset has zero nulls in that column — both are genuine data-quality observations, not bugs
-Output
-Jupyter Notebook (.ipynb) with executed outputs, Spark execution plan proof, and a brief summary tying results back to theory.
+# Week 6 — Spark Architecture: Lazy Evaluation, DAGs & File Format Tradeoffs
+
+## 🎯 Objective
+
+Understand how Spark actually executes a job under the hood — building on Week 5's hands-on PySpark cleaning work with the conceptual model of *why* Spark behaves the way it does, and reason about storage format tradeoffs for analytical workloads.
+
+## 🧠 Topics Covered
+
+1. **Transformations vs. actions** — why Spark defers execution (`.filter()`, `.select()`, `.groupBy()` are transformations; `.show()`, `.count()`, `.collect()` are actions that actually trigger a job)
+2. **Lazy evaluation** — how deferring execution lets Spark's Catalyst optimizer plan the most efficient physical execution before any computation runs, instead of executing each step immediately and naively
+3. **DAG (Directed Acyclic Graph) construction** — how Spark builds a lineage graph of transformations, and how that lineage is what makes fault tolerance possible (a lost partition can be recomputed from the DAG instead of needing a full re-run)
+4. **Predicate pushdown** — filtering data as close to the storage layer as possible (e.g. inside a Parquet reader) instead of loading everything into memory and filtering afterward
+5. **CSV vs. Parquet** — columnar vs. row-based storage, compression efficiency, schema enforcement, and the read/write performance gap between the two for analytical (read-heavy) workloads
+
+## 📈 Key Insights
+
+<!-- Fill in your actual findings, e.g.:
+- Benchmark: Parquet read was Nx faster than CSV for [operation]
+- File size comparison: CSV vs Parquet for the same dataset
+- Where predicate pushdown measurably reduced data scanned
+-->
+
+## 📁 Output
+
+- Jupyter Notebook (`.ipynb`) with conceptual notes + any applied benchmarks
+- Brief summary of findings
+
+## 🔧 Tech Used
+
+PySpark, Parquet, CSV
