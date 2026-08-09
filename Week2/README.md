@@ -28,9 +28,8 @@ Build SQL fundamentals by designing and querying a small e-commerce database (`S
 ## 📁 Output
 
 - SQL script(s) with all queries
-- Query results / screenshots
 - Brief summary of findings
 
 ## 🔧 Tech Used
 
-SQL (SQLite / MySQL)
+  MySQL
