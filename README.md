@@ -1,36 +1,112 @@
-# 📊 Celebal Technologies — Data Engineering Internship (CEI)
+<div align="center">
 
-This repository contains my weekly assignment submissions for the **Celebal Excellence Intern (CEI) Program — Data Engineering Track**.
+# Celebal Technologies — Data Engineering Internship
 
-Each week's work is organized into its own folder with the relevant notebook/script, dataset reference, and a brief summary of what was covered.
+### CEI Program · Data Engineering Track
 
----
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-4479A1?style=flat-square&logo=postgresql&logoColor=white)
+![PySpark](https://img.shields.io/badge/PySpark-E25A1C?style=flat-square&logo=apachespark&logoColor=white)
+![Delta Lake](https://img.shields.io/badge/Delta%20Lake-00ADD8?style=flat-square&logo=delta&logoColor=white)
+![Azure](https://img.shields.io/badge/Azure%20Data%20Factory-0078D4?style=flat-square&logo=microsoftazure&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat-square)
 
-## 📅 Weekly Assignments
+A week-by-week record of my Data Engineering internship — from Pandas fundamentals to Spark internals, Delta Lake, and a full end-to-end analytics system.
 
-| Week   | Topic                                                              | Status      |
-| ------ | ------------------------------------------------------------------- | ----------- |
-| Week 1 | Basic Data Exploration & Cleaning using Pandas                     | ✅ Completed |
-| Week 2 | E-commerce Database Analysis (ShopEase) — SQL Fundamentals         | ✅ Completed |
-| Week 3 | Superstore Sales Analysis — Subqueries, CTEs & Window Functions    | ✅ Completed |
-| Week 4 | Azure Data Factory — End-to-End Pipeline (Superstore)              | ✅ Completed |
-| Week 5 | Spark Fundamentals — Data Cleaning & Aggregation                   | ✅ Completed |
-| Week 6 | Spark Architecture — Lazy Evaluation, DAGs & File Format Tradeoffs | ✅ Completed |
-| Week 7 | Delta Lake MERGE Implementation — Incremental Data Processing      | ✅ Completed |
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 📖 About this repository
 
-- **Python** (pandas, PySpark)
-- **SQL** (SQLite / MySQL)
-- **Apache Spark** (PySpark, local mode)
-- **Delta Lake** (delta-rs / `deltalake` Python API)
-- **Azure** (Storage Account, Data Factory)
-- **Google Colab**
-- **Git & GitHub** for version control
+This repo documents everything built during the **Celebal Excellence Intern (CEI) Program — Data Engineering Track**. Each week is a self-contained folder with its own notebook/script, dataset reference, and README covering the objective, approach, and results.
 
-Each week's folder has its own `README.md` with objective, approach, and key takeaways specific to that assignment — this top-level README just links everything together.
+The work progresses deliberately: **Python/Pandas fundamentals → SQL analytics → cloud pipelines (Azure Data Factory) → distributed processing (PySpark) → Spark internals → transactional data lakes (Delta Lake) → a full production-style analytics system (Python + SQL, end to end)**.
+
+---
+
+## 🗂️ Weekly Index
+
+| # | Topic | Core Skills | Status |
+|---|---|---|:---:|
+| 1 | Data Exploration & Cleaning with Pandas | Pandas, data cleaning | ✅ |
+| 2 | ShopEase E-commerce DB Analysis | SQL fundamentals | ✅ |
+| 3 | Superstore Sales Analysis | Subqueries, CTEs, Window Functions | ✅ |
+| 4 | Azure Data Factory Pipeline | ADF, Get Metadata, Copy Data | ✅ |
+| 5 | Spark Fundamentals | PySpark, cleaning, aggregation | ✅ |
+| 6 | Spark Architecture Deep Dive | Lazy eval, DAGs, Parquet vs CSV | ✅ |
+| 7 | Delta Lake MERGE | Delta Lake, upserts, ACID | ✅ |
+| 8 | **E-Commerce Order Analytics System** | Python, SQL, data cleaning, CLI tooling | ✅ ⭐ |
+
+---
+
+## 🧠 Skills demonstrated across the internship
+
+<table>
+<tr>
+<td valign="top" width="33%">
+
+**Data Engineering**
+- ETL pipeline design
+- Data cleaning & validation
+- Referential integrity checks
+- Incremental / upsert processing
+
+</td>
+<td valign="top" width="33%">
+
+**SQL**
+- CTEs (single & multi-level)
+- Window functions (`RANK`, `DENSE_RANK`, `NTILE`, `LAG`/`LEAD`)
+- Cohort & retention analysis
+- Self-joins, subqueries
+
+</td>
+<td valign="top" width="33%">
+
+**Big Data & Cloud**
+- PySpark DataFrame API
+- Spark execution model (DAGs, lazy eval)
+- Delta Lake transactions
+- Azure Data Factory pipelines
+
+</td>
+</tr>
+</table>
+
+---
+
+## ⭐ Featured Project: Week 8 — E-Commerce Order Analytics System
+
+The most complete build in this repo — a full pipeline, not a single script.
+
+```
+Generate (intentionally messy data) → Clean → Load into SQLite → 16 SQL Analyses → CLI Reporting Tool
+```
+
+**What sets it apart:**
+- Data quality issues are **injected on purpose during generation** — missing foreign keys, malformed dates, invalid emails — then genuinely detected and handled downstream, not hand-waved.
+- **16 SQL queries**, basic through advanced: `DENSE_RANK`, `NTILE`, `LAG`/`LEAD`, multi-level CTEs, cohort retention, YoY comparisons.
+- A **working CLI report tool** (stdlib-only, no pandas) that generates orders/revenue/top-products reports with period-over-period comparison.
+- **Real unit tests** covering 4 edge cases — broken foreign keys, invalid discounts, zero quantities, future-dated orders.
+- Runs end to end with one command:
+  ```bash
+  cd Week8 && pip install -r requirements.txt && bash run_pipeline.sh
+  ```
+
+**Results from the last full run:**
+
+| Check | Result |
+|---|---|
+| Missing `customer_id` detected | 114 orders (~5%) — flagged, not dropped |
+| Wrong date format corrected | 99 rows normalized (`DD-MM-YYYY` → standard) |
+| Returns flagged (negative qty) | 209 line items |
+| Invalid emails detected | 9 customers |
+| Intentional broken foreign keys caught | 6 / 6 |
+| SQL queries executed successfully | 16 / 16 |
+
+📄 Full design write-up and rationale: [`Week8/README.md`](./Week8/README.md)
 
 ---
 
@@ -139,16 +215,13 @@ Conceptual + applied deep-dive into how Spark actually executes a job under the 
 
 ---
 
-## 📌 Week 7 — Delta Lake MERGE Implementation (Latest)
+## 📌 Week 7 — Delta Lake MERGE Implementation
 
 Incremental data processing using Delta Lake, applied to the Superstore dataset, reshaped into a realistic upsert scenario.
 
 **Objective:** Perform incremental data processing using Delta Lake.
 
-**Approach:** the static Superstore file is split 85/15 — 8,495 rows become the "already loaded" Delta
-table, 1,499 held back to simulate orders not yet in the system. The incremental batch then combines
-**425 order corrections** (existing orders with a retroactive discount/profit adjustment) and **300 new
-orders** pulled from the holdout pool.
+**Approach:** the static Superstore file is split 85/15 — 8,495 rows become the "already loaded" Delta table, 1,499 held back to simulate orders not yet in the system. The incremental batch then combines **425 order corrections** (existing orders with a retroactive discount/profit adjustment) and **300 new orders** pulled from the holdout pool.
 
 **Steps Covered:**
 
@@ -169,13 +242,50 @@ orders** pulled from the holdout pool.
 
 ---
 
-## 🙋 About
+## 📌 Week 8 — E-Commerce Order Analytics System
 
-Data Engineering Intern @ Celebal Technologies (CEI Program)
-Final-year B.Tech CSE student, DIT University Dehradun
+A full mini end-to-end analytics pipeline, not a single script: synthetic (intentionally messy) data → cleaned data → SQLite → 16 SQL analyses → a CLI reporting tool, tying together everything from Weeks 1–7 (Pandas cleaning, SQL window functions/CTEs, and a proper local database) into one project.
+
+**Objective:** Simulate joining a company with messy, multi-source order data — clean it, model it relationally, and answer real business questions against it using SQL alone (no shortcuts through pandas for the analysis layer).
+
+**Approach:** Rather than generating clean data and sprinkling in a few nulls afterward, data quality issues are injected *during* generation and then have to be genuinely detected and handled downstream — including a small, fixed number of intentionally broken foreign keys, so the referential-integrity checker has something real to catch instead of trivially passing on data that was never going to break it.
+
+**Steps Covered:**
+
+1. Generate 4 relational CSVs (`customers`, `products`, `orders`, `order_items`) with realistic fake data and deliberate issues: missing `customer_id`, malformed date formats, messy product name casing, invalid emails, negative quantities (returns)
+2. `clean_orders()` / `clean_products()` / `validate_emails()` / `check_referential_integrity()` — fix what's fixable (date formats, name casing), flag what isn't (missing FK, bad email) rather than deleting rows outright
+3. Load cleaned data into a local SQLite database with indexes on every join/filter column
+4. **16 SQL queries** — basic (revenue per category, top customers, monthly order counts) through advanced (running totals, `DENSE_RANK`, `LAG`/`LEAD` gap analysis, multi-level CTEs, `NTILE` quartile segmentation, YoY comparison, cohort retention, self-join "frequently bought together")
+5. A command-line report tool (stdlib only — `sqlite3` + `argparse`, no pandas) that takes a report type + date range and returns totals, top products, and % change vs. the previous period
+6. Unit tests for 4 explicit edge cases: orphan foreign keys, out-of-range discounts, zero quantity, future-dated orders
+
+**Key Insights:**
+
+- **114 orders (~5%)** had a missing `customer_id` — kept, not dropped, since a missing FK doesn't mean the order didn't happen
+- **99 dates** were caught in the wrong format (`DD-MM-YYYY`) and normalized without guessing
+- **209 order line items** were flagged as returns (negative quantity) — included in revenue calculations on purpose, since a return should reduce recognized revenue, not disappear from it
+- **6/6 intentionally broken foreign keys** were caught and removed by `check_referential_integrity()` — proof the checker actually works, not just that it runs
+- All 16 SQL queries executed successfully against the cleaned dataset, including window-function and cohort-analysis queries validated against a real (if synthetic) 2-year order history
+
+**Output:** Full project folder (`src/`, `sql/`, `tests/`, generated `data/`, `reports/`, `query_results/`) + one-command pipeline runner (`run_pipeline.sh`) + project-level `README.md` with design rationale
 
 ---
 
-## 🔄 How This Repo Is Updated
+## 🔄 How this repo is updated
 
-A new folder is added each week with that week's assignment, following the same structure: notebook + dataset reference + brief README summarizing objective, techniques used, and insights.
+A new folder is added each week with that week's assignment, following the same structure: notebook/script + dataset reference + brief README summarizing objective, techniques used, and insights.
+
+---
+
+<div align="center">
+
+## 🙋 About Me
+
+**Piyush** · Final-year B.Tech CSE, DIT University Dehradun (2023–2027)
+Data Engineering Intern @ Celebal Technologies (CEI Program)
+
+[![GitHub](https://img.shields.io/badge/GitHub-piyush23--eng-181717?style=flat-square&logo=github)](https://github.com/piyush23-eng)
+
+*Open to Data Engineering / SDE internship & full-time opportunities.*
+
+</div>
