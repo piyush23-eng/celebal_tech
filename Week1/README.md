@@ -26,7 +26,6 @@ Learn Python basics and perform basic data exploration and cleaning using Pandas
 
 - Jupyter Notebook (`.ipynb`) with all steps executed
 - Cleaned CSV file
-- Brief summary of findings
 
 ## 🔧 Tech Used
 
