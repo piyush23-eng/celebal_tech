@@ -286,6 +286,5 @@ Data Engineering Intern @ Celebal Technologies (CEI Program)
 
 [![GitHub](https://img.shields.io/badge/GitHub-piyush23--eng-181717?style=flat-square&logo=github)](https://github.com/piyush23-eng)
 
-*Open to Data Engineering / SDE internship & full-time opportunities.*
 
 </div>
