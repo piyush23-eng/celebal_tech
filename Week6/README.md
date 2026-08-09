@@ -22,7 +22,7 @@ Understand how Spark actually executes a job under the hood — building on Week
 
 ## 📁 Output
 
-- Jupyter Notebook (`.ipynb`) with conceptual notes + any applied benchmarks
+- Jupyter Notebook (`.ipynb`)
 - Brief summary of findings
 
 ## 🔧 Tech Used
