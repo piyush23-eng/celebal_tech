@@ -281,7 +281,7 @@ A new folder is added each week with that week's assignment, following the same 
 
 ## 🙋 About Me
 
-**Piyush** · Final-year B.Tech CSE, DIT University Dehradun (2023–2027)
+**Piyush Pankaj** · Final-year B.Tech CSE, DIT University Dehradun (2023–2027)
 Data Engineering Intern @ Celebal Technologies (CEI Program)
 
 [![GitHub](https://img.shields.io/badge/GitHub-piyush23--eng-181717?style=flat-square&logo=github)](https://github.com/piyush23-eng)
