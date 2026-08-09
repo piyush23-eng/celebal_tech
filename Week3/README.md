@@ -20,7 +20,6 @@ SQL-based analysis of the Superstore dataset, layering progressively more advanc
 ## 📁 Output
 
 - SQL script(s) with all queries
-- Query results / screenshots
 - Brief summary of findings
 
 ## 🔧 Tech Used
